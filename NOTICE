@@ -1,0 +1,16 @@
+Third-party material in scion-starlte (the Galaxy S9's device files for Scion)
+
+Scion's kernel (github.com/Scion-Project/scion-kernel) is a fork of HakiOS by the HakiOS authors, and this repository is the S9's
+device layer of that tree, which started as HakiOS's hakios-starlte. Its own files are under LICENSE (MIT). The kernel's NOTICE and
+THIRD_PARTY_LICENSES.md carry the full list; the parts that are in this repository:
+
+- prebuilt/SILICIUM_UEFI.fd and prebuilt/BootShim.bin: built from Mu-Silicium (Project Silicium, Microsoft and contributors) with
+  the port's changes, uefi/hakios.patch and uefi/files: BSD-2-Clause and BSD-2-Clause-Patent, the licences of the files they derive
+  from. The UEFI image carries Project Silicium's Carbon Hypervisor (Hyp.bin, GPL-2.0, source at
+  github.com/Project-Silicium/Carbon-Hypervisor). Recipe, base commit and hashes: prebuilt/README.md.
+- prebuilt/mkbootimg.py: AOSP's, Apache-2.0.
+- firmware/: the vendor's firmware binaries, unchanged from the LineageOS vendor trees (github.com/Scion-Project/proprietary_vendor_samsung_*,
+  forked from ExyHyperBrick's): Samsung's, redistribution terms "to verify" (the kernel's THIRD_PARTY_LICENSES.md). No Apple software,
+  keys or Apple firmware is in this repository.
+- Facts about the S9's hardware read from Samsung's published GPL kernel (LineageOS's android_kernel_samsung_exynos9810) and the
+  LineageOS device and vendor trees: facts, not copied code.
