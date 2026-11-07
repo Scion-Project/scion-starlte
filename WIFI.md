@@ -158,8 +158,8 @@ The kernel has the driver only if `tools/mk-brcmfmac.sh` ran before it was built
 
 ### The files: firmware, NVRAM, CLM
 
-The project carries them (`firmware/wifi/`, Broadcom's, unchanged, from the LineageOS 24 vendor image: its README has
-the sums), and the phone has the same files in its own VENDOR partition. `drivers/wifi/hakios.brcmfmac.c` looks for each
+The project names them (`firmware/wifi/`, Broadcom's, unchanged, from the LineageOS 24 vendor image: its README has
+the sums, and `tools/fetch-firmware.sh` fetches them; the files themselves are not in the repository), and the phone has the same files in its own VENDOR partition. `drivers/wifi/hakios.brcmfmac.c` looks for each
 file brcmfmac asks for, in order:
 
 1. under brcmfmac's name (`brcmfmac4361b2-pcie.bin`, `.txt`, `.clm_blob`) in `fw/` of the small image (a developer's

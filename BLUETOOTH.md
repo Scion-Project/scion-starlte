@@ -37,8 +37,8 @@ module's BCM4347B2 does not know it (status 01) and runs at 4 Mbaud without it.
 ## The patch
 
 Broadcom's patch, one for each module maker: `bcm4361B2_murata.hcd` ("BCM4361B2 Crown 1QW ANT1") and
-`bcm4361B2_semco.hcd` ("BCM4361B2 Crown E32A ANT1"), about 106 KB each. The project carries both (`firmware/bt/`, from
-the LineageOS 24 vendor image; its README has the sums) and the phone has them in its VENDOR partition. At step 6 the
+`bcm4361B2_semco.hcd` ("BCM4361B2 Crown E32A ANT1"), about 106 KB each. The project names both (`firmware/bt/`, from
+the LineageOS 24 vendor image; its README has the sums, `tools/fetch-firmware.sh` fetches them, the files are not in the repository) and the phone has them in its VENDOR partition. At step 6 the
 driver takes, in order: `fw/<bt_hcd>` if `bt_hcd=` names one there (a developer's own `fw-bt/`); then, for the module,
 `fw/bcm4361B2_<module>.hcd` (`userland/build.sh DEVICE=starlte`) and the phone's own `/vendor/firmware/` and
 `/vendor/etc/bluetooth/`, read at run time (`ufs=2`, `drivers/storage/hakios.ext4.c`, as for Wi-Fi; `bt_vendor=0` leaves

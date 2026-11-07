@@ -9,8 +9,10 @@ THIRD_PARTY_LICENSES.md carry the full list; the parts that are in this reposito
   from. The UEFI image carries Project Silicium's Carbon Hypervisor (Hyp.bin, GPL-2.0, source at
   github.com/Project-Silicium/Carbon-Hypervisor). Recipe, base commit and hashes: prebuilt/README.md.
 - prebuilt/mkbootimg.py: AOSP's, Apache-2.0.
-- firmware/: the vendor's firmware binaries, unchanged from the LineageOS vendor trees (github.com/Scion-Project/proprietary_vendor_samsung_*,
-  forked from ExyHyperBrick's): Samsung's, redistribution terms "to verify" (the kernel's THIRD_PARTY_LICENSES.md). No Apple software,
+- firmware/: the vendor's firmware binaries are NOT in this repository (since 7 Nov 2026; earlier commits held them). Only their sha256 sums
+  are (firmware/*/SHA256SUMS), and tools/fetch-firmware.sh fetches them from the user's own copy or from the public LineageOS vendor
+  trees pinned in it (github.com/ExyHyperBrick/proprietary_vendor_samsung_*, ExyHyperBrick's android_kernel_samsung_exynos9810 for the
+  sensor hub): Samsung's and Broadcom's, redistribution terms "to verify" (the kernel's THIRD_PARTY_LICENSES.md). No Apple software,
   keys or Apple firmware is in this repository.
 - Facts about the S9's hardware read from Samsung's published GPL kernel (LineageOS's android_kernel_samsung_exynos9810) and the
   LineageOS device and vendor trees: facts, not copied code.

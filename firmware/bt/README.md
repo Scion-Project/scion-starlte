@@ -1,9 +1,14 @@
 # The Galaxy S9's Bluetooth patch (prebuilt, Broadcom's)
 
 NOTICE. Broadcom's RAM patches for the Bluetooth half of the Galaxy S9's BCM4361 module, one per module maker, as
-Samsung ships them. Kept here, unchanged, by the owner's decision (2 Nov 2026) so that an image can be built without the
-phone at hand. They belong to their owners and are not licensed by this repository (LICENSE, item 5); their terms are
-still to verify.
+Samsung ships them. They belong to their owners and are not licensed by this repository (LICENSE, item 5); their terms
+are still to verify. Not kept in this repository (they were, from 2 Nov to 7 Nov 2026; the earlier commits still hold
+them): the files are fetched unchanged.
+
+**Not in this repository.** Only this README and `SHA256SUMS` are tracked; the files themselves are fetched, and checked
+against `SHA256SUMS`, by `tools/fetch-firmware.sh` (from your own copy with `--from DIR`, else from the pinned public
+community vendor trees it names; `--check` only verifies). `userland/build.sh` with `DEVICE=starlte` runs it for you when
+a file is missing (kernel repository, `tools/` and `userland/build.sh`), and stops with what to do if a file cannot be had.
 
 Source: the LineageOS 24 vendor image for starlte, `/vendor/firmware/` (the same files, by SHA-1, as
 `proprietary-files.txt` of LineageOS's `device_samsung_exynos9810-common` lists, and as the user's own phone's VENDOR

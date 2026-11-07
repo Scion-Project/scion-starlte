@@ -1,9 +1,17 @@
 # The Galaxy S9's sensor-hub firmware (prebuilt, Broadcom's)
 
 NOTICE. The RAM image of the sensor hub inside the S9's Broadcom BCM4775 B0 GNSS chip, which the chip's ROM takes over
-SPI at every power-up and then runs: Samsung's sensor-hub application ("bcm_sensorhub_a1"). Kept here, unchanged in its
-bytes, so that an image can be built without the phone at hand, as the Wi-Fi and Bluetooth firmware beside it are. It
-belongs to its owners and is not licensed by this repository (LICENSE, item 5); its terms are still to verify.
+SPI at every power-up and then runs: Samsung's sensor-hub application ("bcm_sensorhub_a1"). It belongs to its owners and is not
+licensed by this repository (LICENSE, item 5); its terms are still to verify. Not kept in this repository (it was, from 5 to 7 Nov 2026; the
+earlier commits still hold it).
+
+**Not in this repository.** Only this README and `SHA256SUMS` are tracked; the files themselves are fetched, and checked
+against `SHA256SUMS`, by `tools/fetch-firmware.sh` (from your own copy with `--from DIR`, else from the pinned public
+community vendor trees it names; `--check` only verifies). `userland/build.sh` with `DEVICE=starlte` runs it for you when
+a file is missing (kernel repository, `tools/` and `userland/build.sh`), and stops with what to do if a file cannot be had.
+
+`tools/fetch-firmware.sh` makes this file from Samsung's kernel header (Source, below: pinned at that kernel commit, or a copy
+of `bbd_patch_file_star.h` given with `--from DIR`, or the finished file there): the hex of the blob, turned back into its bytes.
 
 Source: Samsung's GPL kernel for the S9 (Scion-Project/android_kernel_samsung_exynos9810 at e5906667068e),
 `drivers/sensorhub/brcm/bbdpl/q_os/bbd_patch_file_star.h`, which the kernel builds in for CONFIG_SENSORS_SSP_STAR and

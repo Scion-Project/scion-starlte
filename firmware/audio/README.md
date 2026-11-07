@@ -1,10 +1,15 @@
 # The Galaxy S9's audio firmware (prebuilt, Samsung's)
 
-Samsung's own binaries, kept here by the project's choice so that an image can be built without the phone at hand.
-`userland/build.sh` with `DEVICE=starlte` puts every file of `firmware/` into `fw/` of the root image, where the kernel's
+Samsung's own binaries, not kept in this repository (they were, until 7 Nov 2026; the earlier commits still hold them).
+
+**Not in this repository.** Only this README and `SHA256SUMS` are tracked; the files themselves are fetched, and checked
+against `SHA256SUMS`, by `tools/fetch-firmware.sh` (from your own copy with `--from DIR`, else from the pinned public
+community vendor trees it names; `--check` only verifies). `userland/build.sh` with `DEVICE=starlte` runs it for you when
+a file is missing (kernel repository, `tools/` and `userland/build.sh`), and stops with what to do if a file cannot be had.
+`userland/build.sh` with `DEVICE=starlte` puts every file of `firmware/` (but the READMEs and `SHA256SUMS`) into `fw/` of the root image, where the kernel's
 drivers find them (`hakios_image_file("fw", name)`).
 
-Taken unchanged from ExyHyperBrick's LineageOS vendor trees, branch `lineage-24.0`, `proprietary/vendor/firmware/`
+The files are the ones of ExyHyperBrick's LineageOS vendor trees, branch `lineage-24.0`, `proprietary/vendor/firmware/`
 (the phone's `/vendor/firmware`): [`proprietary_vendor_samsung_starlte`](https://github.com/ExyHyperBrick/proprietary_vendor_samsung_starlte) and, for `dsm.bin` and the codec's
 `cs47l92-dsp1-trace.wmfw`, [`proprietary_vendor_samsung_exynos9810-common`](https://github.com/ExyHyperBrick/proprietary_vendor_samsung_exynos9810-common). A phone's own copies can be checked against
 the sums below (`adb shell sha256sum /vendor/firmware/<name>`).

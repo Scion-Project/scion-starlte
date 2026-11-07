@@ -295,6 +295,11 @@ devices/starlte/mkimage.sh -s 300 fps_log=1 wifi=     # the same, a diagnostic a
 devices/starlte/mkimage.sh -s 300 -n cpus=2 bootcpu=2 # only these arguments, none of the defaults (a first run of something)
 ```
 
+The S9's vendor firmware (ABOX's, Wi-Fi's, Bluetooth's, the sensor hub's: `firmware/*/`) is not in this repository, only its
+sums. `tools/fetch-firmware.sh` fetches it and checks it (from your own copy with `--from DIR`, else from the public vendor
+trees pinned in the script), and the `DEVICE=starlte` step of `userland/build.sh` runs it when a file is missing, so the
+commands above need nothing more; run it by hand to do that first, or `--check` to see what is missing.
+
 To install iOS on the phone's flash with one TWRP zip, build the system image too (`make images`), then use
 [scion-installer](https://github.com/Scion-Project/scion-installer)'s `build-installer.sh` (Storage, below).
 
@@ -754,7 +759,7 @@ Go up one step a run: `mkimage.sh -s 60 cpus=2 bootcpu=2 wifi_pcie=1`, and so on
 Stage 2 (`drivers/wifi/hakios.brcmfmac.c`, `wifi_pcie=6 brcmfmac=N`): Linux's brcmfmac
 (ISC) on the Linux layer the POCO's ath11k runs on, its object made by `tools/mk-brcmfmac.sh` before the kernel is
 built. 6 hands the device on; then `brcmfmac=1` reads the chip's ID through BAR0, 2 reads which module it is from its OTP
-and asks for the firmware, NVRAM (the module's) and CLM (`firmware/wifi/` of this repository in `fw/`, or the phone's own
+and asks for the firmware, NVRAM (the module's) and CLM (`firmware/wifi/`, fetched by `tools/fetch-firmware.sh`, in `fw/`, or the phone's own
 VENDOR partition read at run time with `ufs=2`: WIFI.md has the table), 3 starts the firmware, 4 sends
 it its first command (the first DMA) and registers the wiphy. 5 takes the chip's interrupt by INTx (SPI 253) instead of
 a thread that looks (`brcmfmac_poll=1` keeps the thread), 6 gives the firmware the phone's address (`fw-wifi/mac.info`,

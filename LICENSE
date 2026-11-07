@@ -14,13 +14,15 @@ that the device layer under devices/ is under the MIT License. The same terms ap
    Carbon Hypervisor (GPL-2.0, source at github.com/Project-Silicium/Carbon-Hypervisor).
    mkbootimg.py is AOSP's, under Apache-2.0. prebuilt/README.md has the details.
 
-4. firmware/audio/: Samsung's audio firmware binaries, unchanged (firmware/audio/README.md says where they
-   come from). They belong to their owners and are not licensed by this repository.
+4. firmware/audio/: Samsung's audio firmware binaries (firmware/audio/README.md says where they come from). They are
+   not in this repository: only their sums are, and tools/fetch-firmware.sh fetches them. They belong to their owners
+   and are not licensed by this repository.
 
-5. firmware/wifi/ and firmware/bt/: Broadcom's Wi-Fi firmware, NVRAM and CLM and its Bluetooth patches for the
-   BCM4361 (Murata's and SEMCO's modules), unchanged, from the LineageOS 24 vendor image for starlte (the READMEs
-   there say which and give their sums). They belong to their owners and are not licensed by this repository; the
-   terms under which they may be redistributed are still to verify.
+5. firmware/wifi/, firmware/bt/ and firmware/sensorhub/: Broadcom's Wi-Fi firmware, NVRAM and CLM, its Bluetooth patches
+   for the BCM4361 (Murata's and SEMCO's modules) and the BCM4775's sensor-hub image, from the LineageOS 24 vendor image
+   for starlte and Samsung's kernel (the READMEs there say which and give their sums). They are not in this repository:
+   only their sums are, and tools/fetch-firmware.sh fetches them unchanged. They belong to their owners and are not
+   licensed by this repository; the terms under which they may be redistributed are still to verify.
 
 The kernel drivers this device uses are in the common repository, under its LICENSE (APSL 2.0 for the
 kernel). Samsung's GPL-2.0 kernel sources were read for facts (addresses, fields, sequences) and are not

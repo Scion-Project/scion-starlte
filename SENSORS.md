@@ -11,7 +11,7 @@ the proprietary daemon `lhd`'s job; here the kernel does all of it:
 | the driver, 6 steps (`shub=N`) | `drivers/input/hakios.ssp.c` of the kernel (CONFIG_HAKIOS_SSP, on in `configs/starlte.config`) |
 | the bytes: SPI frames, packets, CRC-8, RPCs, the patch's records, SSP | `drivers/input/hakios.bcm_shub.h`, checked by `tools/bcm-shub-test.sh` |
 | the SPI master (USI_CHUB00) | `drivers/core/hakios.exynos_spi.c` (shared with the audio codec) |
-| the hub's firmware | `firmware/sensorhub/bcm_sensorhub_a1.bin` (its README says where it comes from) |
+| the hub's firmware | `firmware/sensorhub/bcm_sensorhub_a1.bin` (not in the repository: `tools/fetch-firmware.sh` makes it; its README says where it comes from) |
 | the samples to user space | `/dev/hakios-sensors` (`sys/hakios.sensors.h`) |
 | iOS's side | `userland/src/inject.c` in backboardd: HID services of Apple's vendor page, and the orientation |
 | the console | `sensors` on the USB console (`usb_gadget=5`): the hub's state and every sensor's last sample; `sensors on N` / `off N` |
