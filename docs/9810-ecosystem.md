@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The Exynos 9810 ecosystem: what HakiOS can reuse
 
 A survey of the public code for the Exynos 9810 (Galaxy S9 `starlte`, S9+ `star2lte`, Note9 `crownlte`, and the

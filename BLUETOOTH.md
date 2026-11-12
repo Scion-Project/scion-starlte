@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # Bluetooth on the Galaxy S9
 
 The S9's radio is a Broadcom BCM4361 module (Murata or Samsung Electro-Mechanics). Its Wi-Fi half is on PCIe

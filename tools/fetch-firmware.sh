@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT-0
 # Put the Galaxy S9's vendor firmware into firmware/<kind>/, where userland/build.sh (DEVICE=starlte) takes it from.
 #
 # The files are Samsung's and Broadcom's and are NOT kept in this repository (only their sha256 sums are: the

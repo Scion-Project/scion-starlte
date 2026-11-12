@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # Wi-Fi on the Galaxy S9
 
 The S9's radio is a Broadcom BCM4361 (a module by Murata or Samsung Electro-Mechanics) on PCIe channel 0 of the Exynos

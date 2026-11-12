@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The Galaxy S9's Bluetooth patch (prebuilt, Broadcom's)
 
 NOTICE. Broadcom's RAM patches for the Bluetooth half of the Galaxy S9's BCM4361 module, one per module maker, as

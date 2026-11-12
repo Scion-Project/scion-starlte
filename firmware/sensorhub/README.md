@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The Galaxy S9's sensor-hub firmware (prebuilt, Broadcom's)
 
 NOTICE. The RAM image of the sensor hub inside the S9's Broadcom BCM4775 B0 GNSS chip, which the chip's ROM takes over

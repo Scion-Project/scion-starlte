@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The GPU on the Galaxy S9: OpenGL ES and Metal
 
 The S9's GPU is a Mali-G72 MP18 (Bifrost, architecture 6, GPU_ID 0x6221). The kernel repository brings it up in nine
