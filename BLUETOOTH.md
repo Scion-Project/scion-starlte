@@ -147,7 +147,7 @@ into bluetoothd, which makes `openpty`'s central end non-blocking: a write the P
 of stopping the stack. iAP itself goes nowhere (no accessory server); A2DP, AVRCP and HFP do not use the PTY.
 
 The address: bt=7 now gives the chip the phone's own (Broadcom's Write_BD_ADDR, 0xFC01) from `/bluetooth/bt_addr` of
-its EFS partition, read only, as Samsung's Android does ("bt: 7: Write_BD_ADDR (0xFC01) d8:68:c3:33:5b:ce from the
+its EFS partition, read only, as Samsung's Android does ("bt: 7: Write_BD_ADDR (0xFC01) xx:xx:xx:xx:xx:xx from the
 phone's EFS:/bluetooth/bt_addr"); before, every S9 had Broadcom's default 43:61:b2:00:1f:ac, two phones the same.
 `bt_addr=` gives another, `bt_addr=0` keeps the default. (EFS has the ext4 feature ENCRYPT; the kernel's reader now
 takes it and refuses only the inodes that are encrypted.)
