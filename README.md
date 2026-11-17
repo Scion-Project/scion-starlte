@@ -40,8 +40,7 @@ switch through BlueTool and `bluetoothd`, and a paired device that stays connect
 `libhakios.bluetoothd.dylib`; BLUETOOTH.md); the codec's microphone as iOS's
 "iPhone Microphone" (`abox_mic=1`, given for a run; AUDIO.md, "The microphone in iOS").
 
-Not working yet: the headphones (written behind `cs47l93_hp=1`, not yet tried: AUDIO.md), the modem
-(docs/modem-plan.md), the rear cameras, and the iris camera (`iris_s9=N`, off unless asked: the sensor answers, no frame
+Not working yet: the headphones (written behind `cs47l93_hp=1`, not yet tried: AUDIO.md), the rear cameras, and the iris camera (`iris_s9=N`, off unless asked: the sensor answers, no frame
 reaches memory; CAMERA.md). The
 kernel's and loader's half is also tested in QEMU with the same interrupt controller (`qemu/run.sh` with `QEMU_GIC=2`).
 `device.conf` is the record of what is known and what is not, and the sections below give the detail.
@@ -971,4 +970,5 @@ The HSI2C core has no bus recovery: a chip that holds SDA low makes every transf
 | The M3s | all four run; booting on an M3 (`bootcpu=4`) has not been tried |
 | The low RAM bank | its free RAM is XNU's beside the 2 GB window (Memory layout, "The low bank's free RAM"): 3218 MB in all; next, the drivers with 32-bit DMA could take their buffers from it instead of fixed ranges |
 | Sensors | the hub reads six sensors and iOS takes orientation and proximity (`shub=6`, [SENSORS.md](SENSORS.md)); a default once the line has room; the gyroscope's and magnetometer's units, auto-brightness |
-| The modem, the rear cameras | the Shannon CP ([docs/modem-plan.md](docs/modem-plan.md)) and the rear cameras are not started |
+| The modem | the Shannon CP is built into this kernel and started by default since 17 November (`cp=7 cp_nv=2 cp_if=1`; `cp=0` leaves it alone): the driver that registered on the network under iOS 27, with its NV data read from EFS read only. **Not yet run under iOS 16.5.** Data needs the operator's `cp_apn=`; no calls, no SMS ([docs/modem-plan.md](docs/modem-plan.md) is the earlier plan) |
+| The rear cameras | not started |
