@@ -163,7 +163,9 @@ if it is sheared, `cam_s9_stride=` (the "bytes written" over 1224); a "camshot f
 
 ## The iris camera
 
-`drivers/camera/hakios.exynos_iris.c` (`iris_s9=N`, CONFIG_HAKIOS_EXYNOS_IRIS; off unless asked). The sensor answers with `iris_s9_smc=1`; no frame has reached memory yet.
+`drivers/camera/hakios.exynos_iris.c` (`iris_s9=N`, CONFIG_HAKIOS_EXYNOS_IRIS; off unless asked). The sensor answers with `iris_s9_smc=1`;
+no frame reaches memory, and none will: by Samsung's design the iris camera's frames go only to the secure world (below, and
+scion-kernel's `docs/iris-camera.md`). The driver stays as a probe of the sensor, its supplies and its OTP.
 Its head has every register and number and where each comes from (the BSP's fimc-is-device-module-5f1.c,
 leds-s2mpb02.c, the device tree; GPL, read for facts only).
 
@@ -196,6 +198,8 @@ taken out with `cam_s9=`). Running both is the next step: one owner of the S2MPB
 | I4 | `cam_s9= iris_s9=4` | "read back: output 2400 x 2400, frame 5079 lines of 2616 clocks"; "CSIS3 version 0x..."; "STREAM ON"; "streamed N ms; a whole frame"; "the frame: about 5760000 of 5760000 bytes changed"; the middle patch's mean (an eye or a hand at 25-35 cm: well above black) |
 | I5 | `cam_s9= iris_s9=5 usb_gadget=5` | after I4's, "5: ready for the USB console's irshot"; on the host `tools/usb-shot.py --iris -o iris.png`: a grey 1200 x 1200 infrared picture |
 
+I4 and I5 were written expecting a frame in memory. As the next table and the paragraph after it say, none can arrive there.
+
 What the phone has shown (3 November, phone 1, one kernel, Wi-Fi's arguments taken out for the line's length):
 
 | Run | Arguments | Seen |
@@ -206,10 +210,27 @@ What the phone has shown (3 November, phone 1, one kernel, Wi-Fi's arguments tak
 | bright | `iris_s9=5 iris_s9_smc=1 iris_s9_exp=2000 iris_s9_gain=0x100` | CSIS3 FRM_CNT 23, "NO FRAME END seen", 0 bytes changed, so no irshot |
 
 So PREPARE is what lets the sensor answer, and the secure world is reached through Carbon. The pins' registers read the
-same before and after it, so their read-back is no test of anything. Why nothing lands in memory is not known: the
-secure path taking the frame is the first guess, unproved. Not run: `iris_s9_smc=2` and `3`. Next: PREPARE, power up,
-UNPREPARE, then stream, to see whether the sensor stays up and the path is left in the normal world. No run has shown a
-picture, and whether the IR LED pulsed was not observed.
+same before and after it, so their read-back is no test of anything.
+
+Why nothing lands in memory (17 November, from Samsung's GPL kernel; scion-kernel's `docs/iris-camera.md` has every file and line):
+- Samsung's kernel makes PREPARE before it touches the sensor and UNPREPARE after it is off, and only in the "secure" scenario, which is
+  the only one the S5K5F1 has a power table for. Between the two, the normal world drives the sensor's I2C, supplies, pins, MCLK and
+  the CSI, as this driver does.
+- CSIS3 is the SoC's secure camera channel. The address Samsung's kernel gives its DMA is a secure IOVA of the `secure_camera` region
+  (0xE1900000, 30 MB, an "untouchable" heap that no CPU may map), registered with the secure world and translated by the secure side
+  of the ISPPRE SysMMU, whose registers the normal world reaches only through an SMC. Written with 0xD8000000, the DMA after PREPARE most likely
+  writes into that secure context (an inference that fits every run, not proved), so the buffer keeps its 0xA5 while CSIS3 counts
+  frames without an error. The front camera, on CSIS1, fills the same buffer normally.
+- Samsung's kernel has no normal-world capture path for this sensor: no other scenario, no factory frame path, one mode.
+
+So the frames are confined to the secure world by design. The owner's and Claudius's limit is no bypassing, exploiting, patching
+or tricking of the secure world, so no way around it is designed. **Struck:** the earlier next step (PREPARE, power up, UNPREPARE,
+then stream) would use the secure calls out of their order to get frames out of the protected path; it is not to be run.
+`iris_s9_smc=2` and `3` need not be run either. The one legitimate use of these frames is Samsung's own iris trusted application,
+through its normal interface; what that would need (the secure OS running under XNU, Samsung's binary loaded from the phone at run
+time, its undocumented commands, secure buffers, enrolment storage that may mean RPMB or EFS, the LED's per-shot values) is listed
+in `docs/iris-camera.md`, and each part is the owner's decision. No run has shown a picture, and whether the IR LED pulsed was not
+observed. The driver's eye-safety limits are unchanged.
 
 The fingerprint's bus (`fp_s9=N`, the same file). Reading SPI1 (spi@10450000) is a synchronous external abort with its
 clock gates open, and so is the mode word at SYSREG_PERIC0; the kernel panics and the phone returns to TWRP. So they
@@ -221,18 +242,14 @@ settle, the deskew) or nothing at all (the lanes, the D-PHY's reset bit 3); `iri
 
 ### Towards Face ID
 
-iOS 16.5's Face ID (the image is an iPhone X's) runs `biometrickitd` with `/usr/lib/libBKDM2.dylib`, which drives
-`ApplePearlSEPDriver` (the Secure Enclave's biometric service) and `AppleH10CamIn`'s Pearl streams (the dot projector, the
-flood illuminator and the IR camera, read by the SEP). This port has no SEP: its keystore stand-in
-(`MiniAppleKeyStore.cpp`) answers "no passcode, unlocked" and has no passcode at all. The plan, in order:
-1. this driver: an infrared frame of an eye, and a stream to user space (`/dev/hakios-iris`, not written yet);
-2. a passcode in the keystore stand-in (set, change, lock, unlock against a salted verifier kept in /private/var), and
-   the credential coreauthd asks for when Face ID is enrolled;
-3. a process of our own serving `com.apple.pearld` (BiometricKit's XPC protocol: enrol, match, identities, state) with
-   an on-device iris matcher (open-iris, MIT; its segmentation model MIT/Apache-2.0), and a keystore call that unlocks
-   on a match.
-What stays fake: with no SEP there is no hardware key, so the passcode and Face ID gate the screen, not the data; any
-root process could unlock; the templates are a root-only file; there is no anti-spoofing beyond the IR picture itself.
+There will be no Face ID: scion-kernel's `docs/ios27/BIOMETRICS.md` has the study. Face ID's security lives in the Secure Enclave (the
+match, the templates and the keys a match releases); this port has none, and its key store answers as a phone without one. With the
+iris frames out of reach, the S9 offers the normal world only its 2D front camera, which a printed photo or a video can fool. The
+recommendation there: a passcode only for now; possibly later, if the owner wants it, a face match of Scion's own that is labelled as a
+convenience, opens the screen and nothing else, and never releases keys; and never presenting anything to iOS as Face ID (an emulated
+`com.apple.pearld`), which would tell iOS and every app that a spoofable, forgeable match is Secure Enclave biometry. The earlier plan
+here (an iris stream to user space, an open-iris matcher serving `com.apple.pearld`, a key store call that unlocks on a match) is
+withdrawn.
 
 ## Stock iOS's camera, and how ours is presented to it
 
