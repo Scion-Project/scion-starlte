@@ -15,9 +15,10 @@ Source: the LineageOS 24 vendor image for starlte, `/vendor/firmware/` (the same
 `proprietary-files.txt` of LineageOS's `device_samsung_exynos9810-common` lists, and as the user's own phone's VENDOR
 partition has).
 
-`userland/build.sh` with `DEVICE=starlte` puts them into `fw/` of the root image, where
-`drivers/bluetooth/hakios.bcm4361_bt.c` finds them at `bt=6`; without them there it reads the same file from the phone's
-own VENDOR partition at run time (`ufs=2`). Which of the two is the phone's: `bt_module=`, else what Wi-Fi read from the
+`userland/build.sh` (`DEVICE=starlte`, the default for a kernel configured for the S9) puts them into `fw/` of the 16.5
+image, where `drivers/bluetooth/hakios.bcm4361_bt.c` finds them at `bt=6`; only without them there does it read the same
+file from the phone's own VENDOR partition at run time (`ufs=2`). The iOS 27 root build puts both on the root,
+`/private/var/hakios/bt/` (step `92-audio-bt`, by default); that kernel reads nothing of VENDOR. Which of the two is the phone's: `bt_module=`, else what Wi-Fi read from the
 chip's OTP in the same run (BLUETOOTH.md).
 
 | file | what it is | sha256 |

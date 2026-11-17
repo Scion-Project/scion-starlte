@@ -40,9 +40,12 @@ Broadcom's patch, one for each module maker: `bcm4361B2_murata.hcd` ("BCM4361B2 
 `bcm4361B2_semco.hcd` ("BCM4361B2 Crown E32A ANT1"), about 106 KB each. The project names both (`firmware/bt/`, from
 the LineageOS 24 vendor image; its README has the sums, `tools/fetch-firmware.sh` fetches them, the files are not in the repository) and the phone has them in its VENDOR partition. At step 6 the
 driver takes, in order: `fw/<bt_hcd>` if `bt_hcd=` names one there (a developer's own `fw-bt/`); then, for the module,
-`fw/bcm4361B2_<module>.hcd` (`userland/build.sh DEVICE=starlte`) and the phone's own `/vendor/firmware/` and
+`fw/bcm4361B2_<module>.hcd` (`userland/build.sh`, which puts both there: `DEVICE=starlte`, the default since 17 November
+2026 for a kernel configured for the S9) and, only when that is not there, the phone's own `/vendor/firmware/` and
 `/vendor/etc/bluetooth/`, read at run time (`ufs=2`, `drivers/storage/hakios.ext4.c`, as for Wi-Fi; `bt_vendor=0` leaves
-VENDOR alone).
+VENDOR alone). On iOS 27 the kernel reads the patch from the root only, `/private/var/hakios/bt/`, where the root build's
+step `92-audio-bt` puts both by default; with both there it takes the module's, as the Wi-Fi read it from the chip's OTP
+(`bt_otp_wait=`, the kernel repository's `drivers/bluetooth/bcm4361/hakios.bcm4361_bt.c`; not yet run on a phone).
 
 Which module: `bt_module=murata` or `semco`; else what Wi-Fi read from the chip's OTP in the same run (`brcmfmac=2` and
 up: the module's ID, WIFI.md; the driver waits up to 30 s for it); else Murata's first, and the log calls it a guess.

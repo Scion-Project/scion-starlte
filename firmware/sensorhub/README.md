@@ -8,8 +8,10 @@ earlier commits still hold it).
 
 **Not in this repository.** Only this README and `SHA256SUMS` are tracked; the files themselves are fetched, and checked
 against `SHA256SUMS`, by `tools/fetch-firmware.sh` (from your own copy with `--from DIR`, else from the pinned public
-community vendor trees it names; `--check` only verifies). `userland/build.sh` with `DEVICE=starlte` runs it for you when
-a file is missing (kernel repository, `tools/` and `userland/build.sh`), and stops with what to do if a file cannot be had.
+community vendor trees it names; `--check` only verifies). `userland/build.sh` (`DEVICE=starlte`, the default for a kernel
+configured for the S9) runs it for you when a file is missing and puts the file into the 16.5 image's `fw/`; for iOS 27
+`tools/ios27/s9/make-boot-image.sh` puts it into the boot image's device tree (`/scion-firmware`) by default. Both stop
+with what to do if a file cannot be had.
 
 `tools/fetch-firmware.sh` makes this file from Samsung's kernel header (Source, below: pinned at that kernel commit, or a copy
 of `bbd_patch_file_star.h` given with `--from DIR`, or the finished file there): the hex of the blob, turned back into its bytes.

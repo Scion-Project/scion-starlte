@@ -165,12 +165,18 @@ file brcmfmac asks for, in order:
 
 1. under brcmfmac's name (`brcmfmac4361b2-pcie.bin`, `.txt`, `.clm_blob`) in `fw/` of the small image (a developer's
    own `fw-wifi/`, as before);
-2. under bcmdhd's name in `fw/` of the small image (`userland/build.sh DEVICE=starlte` puts `firmware/wifi/` there);
-3. under bcmdhd's name in the phone's own VENDOR partition, read at run time (`ufs=2`): `/vendor/firmware/` (LineageOS)
+2. under bcmdhd's name in `fw/` of the small image (`userland/build.sh` puts `firmware/wifi/` there: `DEVICE=starlte`, the
+   default since 17 November 2026 for a kernel configured for the S9, so every image carries them and 3 is not reached);
+3. only when neither has it: under bcmdhd's name in the phone's own VENDOR partition, read at run time (`ufs=2`): `/vendor/firmware/` (LineageOS)
    and `/vendor/etc/wifi/` (Samsung's Android). `drivers/storage/hakios.ext4.c` reads it, a read-only ext4 reader on
    `hakios_ufs_read_partition()`; tools/ext4-test.py checks it on images made by mke2fs, and it was run on a copy of this
    phone's own VENDOR (2 Nov, the backup `VENDOR.img`: ext4, 4 KB blocks, extents, 32-byte descriptors): all eight
    radio files read back with the sums of `proprietary-files.txt`. `wifi_vendor=0` leaves VENDOR alone.
+
+On iOS 27 the kernel has no reader of VENDOR at all: it reads these files from the root, `/private/var/hakios/wifi/`,
+where the root build's step `91-wifi` puts every file of `firmware/wifi/` by default (the kernel repository's
+`tools/ios27/fullroot/firmware.sh` runs `tools/fetch-firmware.sh`, and a file missing or not matching its sum stops the
+build; until 17 November 2026 the step needed `WIFI_FW_DIR` and without it built a root without Wi-Fi).
 
 | brcmfmac asks for | bcmdhd's name | |
 |---|---|---|

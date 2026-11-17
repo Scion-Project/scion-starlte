@@ -15,10 +15,11 @@ Source: the LineageOS 24 vendor image for starlte, `/vendor/firmware/` (the same
 `proprietary-files.txt` of LineageOS's `device_samsung_exynos9810-common` lists, and as the user's own phone's VENDOR
 partition has). Left out: the factory-test (`bcmdhd_mfg.bin_*`) and monitor-mode (`bcmdhd_mon.bin_*`) builds.
 
-`userland/build.sh` with `DEVICE=starlte` puts them into `fw/` of the root image under these names, where the kernel's
-`drivers/wifi/hakios.brcmfmac.c` finds them for brcmfmac (which asks for `brcmfmac4361b2-pcie.bin`, `.txt` and
-`.clm_blob`). Without them in the image the kernel reads the same files from the phone's own VENDOR partition at run time
-(`ufs=2`; `drivers/storage/hakios.ext4.c`). Which NVRAM is the phone's the kernel reads from the module's ID in the
+`userland/build.sh` (`DEVICE=starlte`, the default for a kernel configured for the S9) puts them into `fw/` of the 16.5
+image under these names, where the kernel's `drivers/wifi/hakios.brcmfmac.c` finds them for brcmfmac (which asks for
+`brcmfmac4361b2-pcie.bin`, `.txt` and `.clm_blob`); only without them there does it read the same files from the phone's
+own VENDOR partition at run time (`ufs=2`; `drivers/storage/hakios.ext4.c`). The iOS 27 root build puts them on the root,
+`/private/var/hakios/wifi/` (step `91-wifi`, by default); that kernel reads nothing of VENDOR. Which NVRAM is the phone's the kernel reads from the module's ID in the
 chip's OTP, as bcmdhd does (WIFI.md).
 
 | file | what it is | sha256 |
