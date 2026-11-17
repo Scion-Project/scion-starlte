@@ -11,7 +11,7 @@ Files that the Scion project wrote entirely from scratch (every commit by the pr
 MIT-0 paths (top-level location, number of files):
 
 - `.github`: 1 file
-- `(top level)`: 9 files
+- `(top level)`: 8 files
 - `configs`: 2 files
 - `docs`: 2 files
 - `firmware`: 4 files
