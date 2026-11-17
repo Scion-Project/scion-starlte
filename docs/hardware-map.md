@@ -34,7 +34,7 @@ Addresses and numbers are the device tree's.
 |---|---|
 | **Core power-down in idle ("c2")**: PSCI `CPU_SUSPEND` (function 0xC4000001) with parameter 0x10000; entry/exit 70/160 us on the A55s, 235/220 us on the M3s, worth it from 2 ms and 3.5 ms of idle | not used: an idle core sits in WFI, powered |
 | **Cluster power-down and system idle clock-down** (`exynos-powermode`: `cpd`, `sicd`, both enabled, 10 ms residency) | not used |
-| **Suspend** (`exynos-pm`: mode index 8, PSCI index 133; wake-ups from the keys, the RTC, the modem's mailbox, USB) | not used: the phone never sleeps, the panel going dark is all a lock does |
+| **Suspend** (`exynos-pm`: mode index 8, PSCI index 133; wake-ups from the keys, the RTC, the modem's mailbox, USB) | not used: the phone never sleeps (what a lock does to the panel has not been checked for this page) |
 | Twelve power domains (`pd-aud`, `-dpu`, `-g2d`, `-isphq`, `-isplp`, `-isppre`, `-iva`, `-mfc`, `-vts`, three for the display controller) | switched on where a driver needs one; none is switched off again when idle |
 | Bus and memory frequency scaling (`devfreq`: MIF, INT, INTCAM, DISP, CAM, AUD, IVA, SCORE) | not used: the rates are as the boot loader left them |
 | CPU hot-plug, the over-current protector of the big cores (`exynos-ocp`) | not used |
