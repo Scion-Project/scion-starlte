@@ -12,7 +12,7 @@ Addresses and numbers are the device tree's.
 | Block | By | Note |
 |---|---|---|
 | Eight cores, GIC-400, timers | the kernel, `hakios.exynos_m3.c` | all eight run; **idle is WFI only** (see "Power") |
-| Clusters' and GPU's clocks | `hakios.exynos_cpufreq.c`, `hakios.scion_gov.c`, `hakios.mali.c` through ACPM | the cores slow with heat; nothing slows the GPU |
+| Clusters' and GPU's clocks | `hakios.exynos_cpufreq.c`, `hakios.scion_gov.c`, `hakios.mali.c` through ACPM | the cores and the GPU both slow with heat (the GPU from 85 C: on 16.5 by its governor, on iOS 27 since 17 November); a run ends at 110 C |
 | UFS | `hakios.ufs.c`, `hakios.ufshc.c` | no inline encryption (FMP), no RPMB |
 | USB | `hakios.dwc3.c`, `hakios.exynos_usb.c` | a device only, on the 2.0 PHY; no host mode, no SuperSpeed |
 | Display | `hakios.exynos_dpu.c` (DECON, DPP, DSIM), `hakios.s6e3ha8.c` | one DECON of two; no DisplayPort |
@@ -87,6 +87,7 @@ IOMMUs (sixteen `sysmmu`: the drivers use fixed memory instead); CoreSight and S
    battery and the heat go. It needs a phone for every step: a core that does not come back is a hang.
 2. **Suspend with the screen off**, after 1.
 3. **The GPU's job interrupt and its second job slot** (scion-kernel `docs/ios27/LIQUID-GLASS.md`: what a frame waits for).
-4. **A limit on the GPU's clock with heat**: small, and the only part of the thermal path that is missing.
+4. ~~A limit on the GPU's clock with heat~~: 16.5 had it (this page's first version was wrong to say otherwise); the
+   iOS 27 tree has it, and a stop at 110 C, since 17 November (Scion-Project/xnu #27). Not yet run on a phone there.
 5. **Video encode**, then the camera's pipeline, for a Camera app that records.
 6. DisplayPort, microSD, GNSS: each a project of its own, none blocking daily use.
