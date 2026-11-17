@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT-0
 # The Galaxy S9's boot image for one run: the boot shim, HakiOS's UEFI for starlte (prebuilt/ or a Mu-Silicium/ built
 # here) and a payload with everything in it -- the loader, the kernel, the small root image, the command line. Samsung's
 # boot loader has no fastboot and Silicium's UEFI no USB gadget, so there is no resident loader to send runs to as on the

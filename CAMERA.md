@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The Galaxy S9's cameras: what it takes, and the plan
 
 State: the front camera works (`drivers/camera/hakios.exynos_camera.c`, run on the phone, 3 November): one picture

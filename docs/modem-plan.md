@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The S9's modem under HakiOS: research and plan
 
 Status: **research only, nothing written or run.** November 2026. No phone was used to write this.

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The Galaxy S9's audio firmware (prebuilt, Samsung's)
 
 Samsung's own binaries, not kept in this repository (they were, until 7 Nov 2026; the earlier commits still hold them).

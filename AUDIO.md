@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # Speaker audio on the Galaxy S9
 
 The S9's speakers are two Maxim MAX98512 amplifiers (I2C 0x39, the top one, and 0x3A, the bottom one, on USI07's HSI2C

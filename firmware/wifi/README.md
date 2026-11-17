@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT-0 -->
 # The Galaxy S9's Wi-Fi firmware (prebuilt, Broadcom's)
 
 NOTICE. Broadcom's firmware, NVRAM and regulatory data for the BCM4361 radio module of the Galaxy S9 (made by Murata or

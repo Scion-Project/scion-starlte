@@ -1,4 +1,5 @@
 #!/bin/bash
+# SPDX-License-Identifier: MIT-0
 # The starlte platform on HakiOS's UEFI: uefi/apply.sh (Mu-Silicium with HakiOS's changes and banner), with this phone's
 # platform from files/ here. See README.md here for the build.
 exec "$(dirname "$(readlink -f "$0")")/../../../uefi/apply.sh" starlte
