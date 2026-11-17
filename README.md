@@ -12,6 +12,13 @@ repository, as the POCO's are: `drivers/core/hakios.exynos_hsi2c.c`, `drivers/in
 `hakios.s6sy761.c`, `drivers/power/hakios.max77705.c`, `drivers/gpu/hakios.s6e3ha8.c` and `hakios.mali.c`/`.cpp`; and so
 are the GICv2, the loader's platform and the image packing (`mkxnuimg.py`).
 
+**Two iOS lines.** This is the S9's repository for both. This README is about **iOS 16.5** (xnu-8796). **iOS 27** runs on
+the phone too, from the fork [Scion-Project/xnu](https://github.com/Scion-Project/xnu) (`scion/xnu-12377`, machine configuration
+STARLTE) with the same drivers: scion-kernel's
+[docs/ios27/INSTALL-S9.md](https://github.com/Scion-Project/scion-kernel/blob/main/docs/ios27/INSTALL-S9.md) has what works
+there, how far each part was seen, and how to build it. [docs/hardware-map.md](docs/hardware-map.md) maps what Scion drives of
+the phone's hardware, and what it leaves alone.
+
 **State: iOS 16.5 runs on the phone, from its own flash, as a daily-usable system.** Seen working on the phone (1 to
 3 November 2026), and on by default on every image (Defaults, below):
 - all eight cores, the four A55s and the four M3s (`cpus=8 bootcpu=2 m3_prep=3 pan=0 isa_floor=1`; The cores), the
@@ -41,7 +48,8 @@ switch through BlueTool and `bluetoothd`, and a paired device that stays connect
 "iPhone Microphone" (`abox_mic=1`, given for a run; AUDIO.md, "The microphone in iOS").
 
 Not working yet: the headphones (written behind `cs47l93_hp=1`, not yet tried: AUDIO.md), the rear cameras, and the iris camera (`iris_s9=N`, off unless asked: the sensor answers, no frame
-reaches memory; CAMERA.md). The
+reaches memory; CAMERA.md). The modem is built in and on by default since 17 November and has **not yet been run under
+iOS 16.5** (What comes next); calls and SMS are not built. The phone never sleeps (docs/hardware-map.md, "Power"). The
 kernel's and loader's half is also tested in QEMU with the same interrupt controller (`qemu/run.sh` with `QEMU_GIC=2`).
 `device.conf` is the record of what is known and what is not, and the sections below give the detail.
 
